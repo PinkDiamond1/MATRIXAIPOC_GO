@@ -166,7 +166,7 @@ func newTransactions(nonce uint64, to *common.Address, amount *big.Int, gasLimit
 	}
 	return &Transaction{data: d}
 }
-//YY 心跳交易
+//YY heartbeat transaction
 func newHeartTransaction(txType byte,data []byte)  *Transaction {
 	if len(data) > 0 {
 		data = common.CopyBytes(data)
@@ -290,7 +290,7 @@ func (tx *Transaction) CostALL() *big.Int {
 func (tx *Transaction) GetTxV() *big.Int{return tx.data.V}
 //YY
 func (tx *Transaction) GetTxS() *big.Int{return tx.data.S}
-//YY 在传递交易时用来操作Nonce
+//YY used to act on Nonce when passing the transactions
 func (tx *Transaction) SetNonce(nc uint64){
 	tx.data.AccountNonce = nc
 }
