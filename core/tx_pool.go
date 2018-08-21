@@ -51,7 +51,7 @@ const (
 	CommTx     = "common"
 )
 
-//消息类型
+//Transaction Type
 const (
 	tmpEmpty = iota  //YY
 	SendFloodSN
@@ -131,7 +131,7 @@ var (
 
 // TxStatus is the current status of a transaction as seen by the pool.
 type TxStatus uint
-//YY TODO 根据全局锁来确定是否需要这么使用
+//YY TODO global lock used to determine if this needs to be done
 //type mapNSstruct struct {
 //	lk sync.RWMutex
 //	mapNS map[uint32]*big.Int
@@ -145,10 +145,10 @@ type TxStatus uint
 
 
 var mapNS = make(map[uint32]*big.Int)                  //YY
-var mapErrtxs = make(map[common.Hash][]common.Address)    //YY  用来存放错误的交易（map[S,addr]）
-var mapLossErrtxs = make(map[*big.Int][]common.Address)//YY  用来存放本地不存在的错误交易（每当有新的交易加进来都需要判断一下）TODO 单独写方法维护
-var mapErrtxsTiming = make(map[common.Hash]uint64)     //YY  给错误交易做定时删除（20个区块）
-var mapTxsTiming = make(map[common.Hash]uint64)        //YY  打包区块后pending中剩余的交易做定时删除
+var mapErrtxs = make(map[common.Hash][]common.Address)    //YY  used to store improper transactions（map[S,addr]）
+var mapLossErrtxs = make(map[*big.Int][]common.Address)//YY  used to store improper transactions that don't exist locally (judge whenever new transactions come in)
+var mapErrtxsTiming = make(map[common.Hash]uint64)     //YY  regular deletion on improper transactions (20 blocks)
+var mapTxsTiming = make(map[common.Hash]uint64)        //YY  regular deletion on the remaining transactions in pending after block packing
 //YY
 
 type retChan struct {
